@@ -1,0 +1,28 @@
+news_sites:
+  eluniversal:
+    url: https://www.eluniversal.com.mx
+    queries:
+      homepage_article_links: '.field-content a'
+      article_title: '.Encabezado-Articulo h1'
+      article_body: '.field-name-body'
+      article_date: '.ce12-DatosArticulo .ce12-DatosArticulo_ElementoFecha'
+      article_time: '.ce12-DatosArticulo .ce12-DatosArticulo_ElementoMetaHora'
+      article_location: '.ce12-DatosArticulo .ce12-DatosArticulo_TiempoRelojes'
+      article_image: '.contenedor-ImagenArticulo img'
+  elpais:
+    url: https://elpais.com
+    queries:
+      homepage_article_links: '.c_t a'
+      article_title: 'header .a_t'
+      article_body: '.a_c'
+      article_date: '.a_md_txt .a_md_f a'
+      article_location: '.a_md_txt .a_md_f span'
+      article_image: '.a_c .a_m img'
+  expansion:
+    url: https://www.expansion.com
+    queries:
+      homepage_article_links: '.ue-c-cover-content__headline a'
+      article_title: '.ue-l-article__header-content .ue-c-article__headline'
+      article_body: '.ue-c-article__body .ue-c-article__standfirst'
+      article_date: '.ue-c-article__publishdate'
+      article_image: '.ue-c-article__body .ue-c-article__media ue-c-article__media--image img'
