@@ -5,7 +5,7 @@ sites = ['eluniversal', 'elpais', 'expansion']
 filename = '2021_12_16_elpais_articles.csv'
 
 def main():
-    extract(sites[2])
+    extract()
     #transform(filename)
 
 if __name__ == '__main__':

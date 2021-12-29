@@ -41,8 +41,9 @@ class Homepage(Page):
         return set(link_list)
 
 class ArticlePage(Page):
-    def __init__(self, url, queries):
+    def __init__(self, url, queries, news_site):
         super().__init__(url)
+        self.__news_site = news_site
         self.__title_query = queries.get('article_title')
         self.__date_query = queries.get('article_date')
         self.__time_query = queries.get('article_time')
@@ -99,3 +100,7 @@ class ArticlePage(Page):
     @property
     def url(self):
         return self._url
+
+    @property
+    def news_site(self):
+        return self.__news_site

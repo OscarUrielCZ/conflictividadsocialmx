@@ -57,16 +57,16 @@ def _fetch_news_site(news_site, url, queries, dirname=None):
 
     articles = []
     for al in article_links:
-        article = _fetch_article(url, al, queries)
+        article = _fetch_article(news_site, url, al, queries)
         if article:
             articles.append(article)
     logger.info(f'{len(articles)} articles fetched')
     _save_articles(dirname, news_site, articles)
 
-def _fetch_article(host, article_link, queries):
+def _fetch_article(news_site, host, article_link, queries):
     full_link = _build_link(host, article_link)
     try:
-        article = ArticlePage(full_link, queries)
+        article = ArticlePage(full_link, queries, news_site)
     except (HTTPError, MaxRetryError) as e:
         logger.warning(f'Cannot get article from {full_link}')
         return None
