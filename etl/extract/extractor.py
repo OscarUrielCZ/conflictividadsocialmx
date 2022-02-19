@@ -18,6 +18,7 @@ is_well_formed_link = re.compile(r"^https?://.+/.+$")
 is_root_path = re.compile(r"^/.+$")
 __filename = 'extract/sites.yaml'
 
+
 def extract(site=None):
     data = load_file(__filename).get('news_sites')
 
@@ -40,6 +41,7 @@ def extract(site=None):
             queries = info.get('queries')
             _fetch_news_site(news_site, url, queries, dirname=dirname)
 
+
 def _fetch_news_site(news_site, url, queries, dirname=None):
     logger.info(f'Fetching {news_site}')
 
@@ -53,7 +55,8 @@ def _fetch_news_site(news_site, url, queries, dirname=None):
     if not article_links:
         logger.warning(f'No articles found from {news_site}')
         return
-    logger.info(f'{len(article_links)} article links extracted from {news_site}')
+    logger.info(
+        f'{len(article_links)} article links extracted from {news_site}')
 
     articles = []
     for al in article_links:
@@ -63,11 +66,12 @@ def _fetch_news_site(news_site, url, queries, dirname=None):
     logger.info(f'{len(articles)} articles fetched')
     _save_articles(dirname, news_site, articles)
 
+
 def _fetch_article(news_site, host, article_link, queries):
     full_link = _build_link(host, article_link)
     try:
         article = ArticlePage(full_link, queries, news_site)
-    except (HTTPError, MaxRetryError) as e:
+    except (HTTPError, MaxRetryError, ConnectionResetError) as e:
         logger.warning(f'Cannot get article from {full_link}')
         return None
 
@@ -77,6 +81,7 @@ def _fetch_article(news_site, host, article_link, queries):
     logger.info(f'Fetched article {full_link}')
     return article
 
+
 def _build_link(host, link):
     if is_well_formed_link.match(link):
         return link
@@ -84,6 +89,7 @@ def _build_link(host, link):
         return f'{host}{link}'
     else:
         return f'{host}/{link}'
+
 
 def _create_dir():
     today_date = datetime.date.today().strftime('%Y_%m_%d')
@@ -98,12 +104,14 @@ def _create_dir():
 
     return dirname
 
+
 def _save_articles(dirname, news_site, articles_list):
     logger.info("Writing articles into csv file")
     now = datetime.datetime.now().strftime("%Y_%m_%d")
     filename = os.path.join(dirname, f'{now}_{news_site}_articles.csv')
     # get attributes of an article (title, body, url)
-    csv_headers = list(filter(lambda property: not property.startswith("_"), dir(articles_list[0])))
+    csv_headers = list(
+        filter(lambda property: not property.startswith("_"), dir(articles_list[0])))
 
     with open(filename, 'w', encoding='utf-8') as f:
         writer = csv.writer(f)
